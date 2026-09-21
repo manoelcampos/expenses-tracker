@@ -4,6 +4,8 @@ A modern, professional personal expense tracker built with Next.js 16, React 19,
 
 ![CI](https://github.com/manoelcampos/expenses-tracker/actions/workflows/ci.yml/badge.svg)
 
+**Live demo:** https://expenses-tracker-three-indol.vercel.app
+
 ## Screenshots
 
 | Dashboard | Expenses |
