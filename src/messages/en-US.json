@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "appName": "Expense Tracker",
+    "dashboard": "Dashboard",
+    "expenses": "Expenses",
+    "menu": "Menu"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "An overview of your spending",
+    "totalSpending": "Total Spending",
+    "currentMonthSpending": "This Month",
+    "topCategory": "Top Category",
+    "transactionCount": "Transactions",
+    "categoryBreakdown": "Spending by Category",
+    "monthlyTrend": "Monthly Trend",
+    "recentExpenses": "Recent Expenses",
+    "viewAll": "View all",
+    "noData": "No expenses yet. Add your first expense to see your dashboard.",
+    "none": "None"
+  },
+  "expenses": {
+    "title": "Expenses",
+    "subtitle": "Manage and review every expense you've recorded",
+    "addExpense": "Add Expense",
+    "editExpense": "Edit Expense",
+    "exportCsv": "Export CSV",
+    "noResults": "No expenses match your filters.",
+    "empty": "No expenses recorded yet.",
+    "fields": {
+      "date": "Date",
+      "amount": "Amount",
+      "category": "Category",
+      "description": "Description"
+    },
+    "placeholders": {
+      "description": "e.g. Weekly groceries",
+      "amount": "0.00",
+      "selectCategory": "Select a category"
+    },
+    "table": {
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "filters": {
+      "dateRange": "Date range",
+      "category": "Category",
+      "allCategories": "All categories",
+      "search": "Search description",
+      "clear": "Clear filters",
+      "pickDateRange": "Pick a date range"
+    },
+    "deleteConfirm": {
+      "title": "Delete expense?",
+      "description": "This action cannot be undone. This will permanently delete this expense.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "form": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "created": "Expense added",
+      "updated": "Expense updated",
+      "deleted": "Expense deleted"
+    }
+  },
+  "categories": {
+    "Food": "Food",
+    "Transportation": "Transportation",
+    "Entertainment": "Entertainment",
+    "Shopping": "Shopping",
+    "Bills": "Bills",
+    "Other": "Other"
+  },
+  "settings": {
+    "language": "Language",
+    "currency": "Currency"
+  },
+  "common": {
+    "loading": "Loading...",
+    "storageError": "We couldn't save your data. Please check your browser storage settings.",
+    "storageReadError": "We couldn't load your saved data.",
+    "close": "Close",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you're looking for doesn't exist.",
+    "backHome": "Back to dashboard"
+  },
+  "validation": {
+    "dateRequired": "Date is required",
+    "dateInvalid": "Enter a valid date",
+    "amountInvalid": "Enter a valid amount",
+    "amountPositive": "Amount must be greater than zero",
+    "amountTooLarge": "Amount is too large",
+    "categoryRequired": "Select a category",
+    "descriptionRequired": "Description is required",
+    "descriptionTooLong": "Description must be 200 characters or fewer"
+  }
+}

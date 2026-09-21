@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "appName": "Controle de Despesas",
+    "dashboard": "Painel",
+    "expenses": "Despesas",
+    "menu": "Menu"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "subtitle": "Uma visão geral dos seus gastos",
+    "totalSpending": "Gasto Total",
+    "currentMonthSpending": "Este Mês",
+    "topCategory": "Categoria Principal",
+    "transactionCount": "Transações",
+    "categoryBreakdown": "Gastos por Categoria",
+    "monthlyTrend": "Tendência Mensal",
+    "recentExpenses": "Despesas Recentes",
+    "viewAll": "Ver todas",
+    "noData": "Nenhuma despesa ainda. Adicione sua primeira despesa para ver o painel.",
+    "none": "Nenhuma"
+  },
+  "expenses": {
+    "title": "Despesas",
+    "subtitle": "Gerencie e revise todas as despesas registradas",
+    "addExpense": "Adicionar Despesa",
+    "editExpense": "Editar Despesa",
+    "exportCsv": "Exportar CSV",
+    "noResults": "Nenhuma despesa corresponde aos filtros.",
+    "empty": "Nenhuma despesa registrada ainda.",
+    "fields": {
+      "date": "Data",
+      "amount": "Valor",
+      "category": "Categoria",
+      "description": "Descrição"
+    },
+    "placeholders": {
+      "description": "ex. Compras da semana",
+      "amount": "0,00",
+      "selectCategory": "Selecione uma categoria"
+    },
+    "table": {
+      "actions": "Ações",
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "filters": {
+      "dateRange": "Período",
+      "category": "Categoria",
+      "allCategories": "Todas as categorias",
+      "search": "Buscar descrição",
+      "clear": "Limpar filtros",
+      "pickDateRange": "Escolha um período"
+    },
+    "deleteConfirm": {
+      "title": "Excluir despesa?",
+      "description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente esta despesa.",
+      "confirm": "Excluir",
+      "cancel": "Cancelar"
+    },
+    "form": {
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "saving": "Salvando...",
+      "created": "Despesa adicionada",
+      "updated": "Despesa atualizada",
+      "deleted": "Despesa excluída"
+    }
+  },
+  "categories": {
+    "Food": "Alimentação",
+    "Transportation": "Transporte",
+    "Entertainment": "Entretenimento",
+    "Shopping": "Compras",
+    "Bills": "Contas",
+    "Other": "Outros"
+  },
+  "settings": {
+    "language": "Idioma",
+    "currency": "Moeda"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "storageError": "Não foi possível salvar seus dados. Verifique as configurações de armazenamento do navegador.",
+    "storageReadError": "Não foi possível carregar seus dados salvos.",
+    "close": "Fechar",
+    "notFoundTitle": "Página não encontrada",
+    "notFoundDescription": "A página que você está procurando não existe.",
+    "backHome": "Voltar ao painel"
+  },
+  "validation": {
+    "dateRequired": "A data é obrigatória",
+    "dateInvalid": "Informe uma data válida",
+    "amountInvalid": "Informe um valor válido",
+    "amountPositive": "O valor deve ser maior que zero",
+    "amountTooLarge": "O valor é muito grande",
+    "categoryRequired": "Selecione uma categoria",
+    "descriptionRequired": "A descrição é obrigatória",
+    "descriptionTooLong": "A descrição deve ter no máximo 200 caracteres"
+  }
+}
