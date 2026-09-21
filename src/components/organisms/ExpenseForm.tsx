@@ -25,6 +25,8 @@ import {
   type ExpenseFormInput,
   type ExpenseFormValues,
 } from "@/features/expenses/model/schema";
+import { useCurrentCurrency } from "@/features/settings/controller/SettingsContext";
+import { SUPPORTED_CURRENCIES } from "@/features/settings/model/constants";
 
 interface ExpenseFormProps {
   defaultValues?: Partial<ExpenseFormInput>;
@@ -72,6 +74,7 @@ function DateField({
 export function ExpenseForm({ defaultValues, onSubmit, onCancel }: ExpenseFormProps) {
   const t = useTranslations();
   const locale = useLocale();
+  const baseCurrency = useCurrentCurrency();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -84,6 +87,7 @@ export function ExpenseForm({ defaultValues, onSubmit, onCancel }: ExpenseFormPr
     defaultValues: {
       date: toIsoDate(new Date()),
       amount: 0,
+      currency: baseCurrency,
       category: "Food",
       description: "",
       ...defaultValues,
@@ -112,18 +116,43 @@ export function ExpenseForm({ defaultValues, onSubmit, onCancel }: ExpenseFormPr
           <FieldError errors={errors.date ? [{ message: t(errors.date.message as never) }] : []} />
         </Field>
 
-        <Field data-invalid={Boolean(errors.amount)}>
+        <Field data-invalid={Boolean(errors.amount || errors.currency)}>
           <FieldLabel>{t("expenses.fields.amount")}</FieldLabel>
-          <Input
-            type="number"
-            step="0.01"
-            min="0"
-            placeholder={t("expenses.placeholders.amount")}
-            aria-invalid={Boolean(errors.amount)}
-            {...register("amount")}
-          />
+          <div className="flex gap-2">
+            <Input
+              type="number"
+              step="0.01"
+              min="0"
+              placeholder={t("expenses.placeholders.amount")}
+              aria-invalid={Boolean(errors.amount)}
+              className="flex-1"
+              {...register("amount")}
+            />
+            <Controller
+              control={control}
+              name="currency"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-24" aria-invalid={Boolean(errors.currency)}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SUPPORTED_CURRENCIES.map((currency) => (
+                      <SelectItem key={currency} value={currency}>
+                        {currency}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
           <FieldError
-            errors={errors.amount ? [{ message: t(errors.amount.message as never) }] : []}
+            errors={
+              [errors.amount, errors.currency]
+                .filter((error) => error != null)
+                .map((error) => ({ message: t(error.message as never) }))
+            }
           />
         </Field>
 

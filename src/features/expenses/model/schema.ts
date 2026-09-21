@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SUPPORTED_CURRENCIES } from "@/features/settings/model/constants";
 import { EXPENSE_CATEGORIES } from "./constants";
 
 export const expenseFormSchema = z.object({
@@ -10,6 +11,9 @@ export const expenseFormSchema = z.object({
     .number({ error: "validation.amountInvalid" })
     .positive("validation.amountPositive")
     .max(1_000_000_000, "validation.amountTooLarge"),
+  currency: z.enum(SUPPORTED_CURRENCIES, {
+    error: "validation.currencyRequired",
+  }),
   category: z.enum(EXPENSE_CATEGORIES, {
     error: "validation.categoryRequired",
   }),

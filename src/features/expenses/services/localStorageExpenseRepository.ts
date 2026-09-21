@@ -11,9 +11,18 @@ export class ExpenseNotFoundError extends Error {
   }
 }
 
+const LEGACY_RECORD_FALLBACK_CURRENCY = "USD";
+
+/** Shape of records saved before multi-currency support added `currency`. */
+type StoredExpense = Omit<Expense, "currency"> & { currency?: Expense["currency"] };
+
 export class LocalStorageExpenseRepository implements ExpenseRepository {
   private readAll(): Expense[] {
-    return readJson<Expense[]>(EXPENSES_STORAGE_KEY, []);
+    const expenses = readJson<StoredExpense[]>(EXPENSES_STORAGE_KEY, []);
+    return expenses.map((expense) => ({
+      ...expense,
+      currency: expense.currency ?? LEGACY_RECORD_FALLBACK_CURRENCY,
+    }));
   }
 
   private writeAll(expenses: Expense[]): void {

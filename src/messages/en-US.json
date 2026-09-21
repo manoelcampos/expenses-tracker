@@ -30,9 +30,11 @@
     "fields": {
       "date": "Date",
       "amount": "Amount",
+      "currency": "Currency",
       "category": "Category",
       "description": "Description"
     },
+    "convertedApprox": "≈ {amount}",
     "placeholders": {
       "description": "e.g. Weekly groceries",
       "amount": "0.00",
@@ -85,7 +87,8 @@
     "close": "Close",
     "notFoundTitle": "Page not found",
     "notFoundDescription": "The page you're looking for doesn't exist.",
-    "backHome": "Back to dashboard"
+    "backHome": "Back to dashboard",
+    "exchangeRateError": "Couldn't fetch today's exchange rate for one or more expenses; showing unconverted amounts."
   },
   "validation": {
     "dateRequired": "Date is required",
@@ -93,6 +96,7 @@
     "amountInvalid": "Enter a valid amount",
     "amountPositive": "Amount must be greater than zero",
     "amountTooLarge": "Amount is too large",
+    "currencyRequired": "Select a currency",
     "categoryRequired": "Select a category",
     "descriptionRequired": "Description is required",
     "descriptionTooLong": "Description must be 200 characters or fewer"

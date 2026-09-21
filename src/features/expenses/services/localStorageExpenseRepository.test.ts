@@ -9,6 +9,7 @@ import {
 const sample: NewExpense = {
   date: "2026-03-05",
   amount: 42.5,
+  currency: "USD",
   category: "Food",
   description: "Groceries",
 };
@@ -61,6 +62,28 @@ describe("LocalStorageExpenseRepository", () => {
   it("removing a missing expense is a no-op", async () => {
     const repository = new LocalStorageExpenseRepository();
     await expect(repository.remove("missing")).resolves.toBeUndefined();
+  });
+
+  it("defaults missing currency to USD for records saved before multi-currency support", async () => {
+    window.localStorage.setItem(
+      "expenses-tracker:expenses:v1",
+      JSON.stringify([
+        {
+          id: "legacy-1",
+          date: "2026-01-01",
+          amount: 10,
+          category: "Food",
+          description: "Old record",
+          createdAt: "2026-01-01T00:00:00.000Z",
+          updatedAt: "2026-01-01T00:00:00.000Z",
+        },
+      ])
+    );
+
+    const repository = new LocalStorageExpenseRepository();
+    const [expense] = await repository.getAll();
+
+    expect(expense.currency).toBe("USD");
   });
 
   it("propagates a StorageError when the corrupt data is read", async () => {

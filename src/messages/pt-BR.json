@@ -30,9 +30,11 @@
     "fields": {
       "date": "Data",
       "amount": "Valor",
+      "currency": "Moeda",
       "category": "Categoria",
       "description": "Descrição"
     },
+    "convertedApprox": "≈ {amount}",
     "placeholders": {
       "description": "ex. Compras da semana",
       "amount": "0,00",
@@ -85,7 +87,8 @@
     "close": "Fechar",
     "notFoundTitle": "Página não encontrada",
     "notFoundDescription": "A página que você está procurando não existe.",
-    "backHome": "Voltar ao painel"
+    "backHome": "Voltar ao painel",
+    "exchangeRateError": "Não foi possível obter a cotação para uma ou mais despesas; exibindo valores não convertidos."
   },
   "validation": {
     "dateRequired": "A data é obrigatória",
@@ -93,6 +96,7 @@
     "amountInvalid": "Informe um valor válido",
     "amountPositive": "O valor deve ser maior que zero",
     "amountTooLarge": "O valor é muito grande",
+    "currencyRequired": "Selecione uma moeda",
     "categoryRequired": "Selecione uma categoria",
     "descriptionRequired": "A descrição é obrigatória",
     "descriptionTooLong": "A descrição deve ter no máximo 200 caracteres"

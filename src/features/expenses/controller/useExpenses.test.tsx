@@ -54,6 +54,7 @@ function wrapper({ children }: { children: ReactNode }) {
 const sample: NewExpense = {
   date: "2026-03-05",
   amount: 42.5,
+  currency: "USD",
   category: "Food",
   description: "Groceries",
 };

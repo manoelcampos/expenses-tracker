@@ -4,6 +4,7 @@ import { expenseFormSchema } from "./schema";
 const validInput = {
   date: "2026-03-05",
   amount: 42.5,
+  currency: "USD" as const,
   category: "Food" as const,
   description: "Groceries",
 };
@@ -45,6 +46,12 @@ describe("expenseFormSchema", () => {
     });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0]?.message).toBe("validation.amountTooLarge");
+  });
+
+  it("rejects an unsupported currency", () => {
+    const result = expenseFormSchema.safeParse({ ...validInput, currency: "XYZ" });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.message).toBe("validation.currencyRequired");
   });
 
   it("rejects an unsupported category", () => {

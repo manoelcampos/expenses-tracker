@@ -1,3 +1,5 @@
+import type { CurrencyCode } from "@/features/settings/model/types";
+
 export type ExpenseCategory =
   | "Food"
   | "Transportation"
@@ -9,7 +11,8 @@ export type ExpenseCategory =
 export interface Expense {
   id: string;
   date: string; // ISO calendar date, "yyyy-MM-dd"
-  amount: number; // positive, currency-agnostic raw number
+  amount: number; // raw, positive, in `currency`
+  currency: CurrencyCode; // the currency the expense was actually entered in
   category: ExpenseCategory;
   description: string;
   createdAt: string; // ISO datetime

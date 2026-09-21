@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CategoryBadge } from "@/components/atoms/CategoryBadge";
-import { CurrencyAmount } from "@/components/atoms/CurrencyAmount";
+import { ExpenseAmount } from "@/components/molecules/ExpenseAmount";
 import { ExpenseRowActions } from "@/components/molecules/ExpenseRowActions";
 import { formatDate } from "@/lib/date";
 import type { Expense } from "@/features/expenses/model/types";
@@ -18,12 +18,21 @@ import type { Expense } from "@/features/expenses/model/types";
 interface ExpenseTableProps {
   expenses: Expense[];
   emptyMessage: string;
+  /** expense id -> amount converted to the base currency, for the "≈" hint on foreign-currency rows */
+  convertedAmounts?: Record<string, number>;
   onEdit?: (expense: Expense) => void;
   onDelete?: (expense: Expense) => void;
   className?: string;
 }
 
-export function ExpenseTable({ expenses, emptyMessage, onEdit, onDelete, className }: ExpenseTableProps) {
+export function ExpenseTable({
+  expenses,
+  emptyMessage,
+  convertedAmounts,
+  onEdit,
+  onDelete,
+  className,
+}: ExpenseTableProps) {
   const showActions = Boolean(onEdit || onDelete);
   const t = useTranslations("expenses");
   const locale = useLocale();
@@ -57,7 +66,11 @@ export function ExpenseTable({ expenses, emptyMessage, onEdit, onDelete, classNa
                 <CategoryBadge category={expense.category} />
               </TableCell>
               <TableCell className="text-right font-medium">
-                <CurrencyAmount amount={expense.amount} />
+                <ExpenseAmount
+                  expense={expense}
+                  convertedAmount={convertedAmounts?.[expense.id]}
+                  className="items-end"
+                />
               </TableCell>
               {showActions && (
                 <TableCell>

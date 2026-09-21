@@ -8,6 +8,7 @@ const expenses: Expense[] = [
     id: "1",
     date: "2026-03-05",
     amount: 42.5,
+    currency: "USD",
     category: "Food",
     description: "Groceries",
     createdAt: "x",

@@ -20,6 +20,10 @@ A modern, professional personal expense tracker built with Next.js 16, React 19,
 |---|---|
 | ![Dashboard in Portuguese](docs/screenshots/dashboard-pt-br.png) | ![Dashboard in BRL](docs/screenshots/dashboard-brl.png) |
 
+**Per-expense currency conversion** — a EUR expense shown alongside its live-converted USD equivalent:
+
+![A EUR expense showing its converted USD amount](docs/screenshots/multi-currency-expense.png)
+
 ## Features
 
 - **Add, edit, delete expenses** — date, amount, category, and description, with full form validation (Zod + react-hook-form)
@@ -29,6 +33,7 @@ A modern, professional personal expense tracker built with Next.js 16, React 19,
 - **Categories** — Food, Transportation, Entertainment, Shopping, Bills, Other
 - **Bilingual** — English (US) and Portuguese (BR), auto-detected from the browser and switchable at any time; URL-routed (`/en-US`, `/pt-BR`)
 - **Multi-currency** — USD, BRL, EUR, CAD, GBP, defaulting from the detected language but independently changeable
+- **Per-expense currency** — each expense can be entered in any supported currency, independent of the app's base currency. Dashboard totals always compute in a single (base) currency, converting each expense using the historical exchange rate for the day it was recorded (via [Frankfurter.app](https://frankfurter.dev), an ECB-sourced, free, no-key exchange rate API). Converted amounts are never stored — they're recomputed on the fly, with resolved rates cached in `localStorage` since a past day's rate never changes.
 - **Responsive** — a data table on desktop, a card list on mobile
 - **Data persistence** — everything is stored in the browser's `localStorage`; no backend, no account needed
 
@@ -67,13 +72,14 @@ Open [http://localhost:3000](http://localhost:3000) — you'll be redirected to 
 3. Click a row's **⋮** menu to edit or delete an expense.
 4. Visit **Dashboard** to see the summary cards and charts update live.
 5. Switch **language** and **currency** from the header — notice they're independent of each other, and that the URL and all labels/categories switch immediately.
-6. Resize the window (or open on a phone) to see the responsive card layout.
+6. Add an expense in a currency different from your base currency (the amount field has its own currency selector) — the row shows the original amount plus an "≈" converted hint, and the dashboard totals include it correctly converted.
+7. Resize the window (or open on a phone) to see the responsive card layout.
 
 ## Architecture
 
 The codebase combines three organizing principles:
 
-- **Feature-driven**: top-level folders under `src/features/` (`expenses`, `dashboard`, `settings`).
+- **Feature-driven**: top-level folders under `src/features/` (`expenses`, `dashboard`, `settings`, `exchangeRates`).
 - **MVC within each feature**:
   - `model/` — types, Zod schemas, constants
   - `controller/` — React hooks that own state and orchestrate `services/`
@@ -88,7 +94,8 @@ src/
 ├── features/
 │   ├── expenses/          # model, services, controller, view
 │   ├── dashboard/
-│   └── settings/          # locale + currency, shared via React context
+│   ├── settings/          # locale + currency, shared via React context
+│   └── exchangeRates/     # historical FX rates: provider interface, Frankfurter impl, localStorage cache
 ├── i18n/                  # next-intl routing/navigation/request config
 ├── lib/                   # currency, date, storage, id helpers
 └── messages/              # en-US.json, pt-BR.json

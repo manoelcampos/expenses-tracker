@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,6 +12,8 @@ import { MonthlyTrendChart } from "@/components/organisms/MonthlyTrendChart";
 import { ExpenseTable } from "@/components/organisms/ExpenseTable";
 import { ExpenseCardList } from "@/components/organisms/ExpenseCardList";
 import { useExpenses } from "@/features/expenses/controller/useExpenses";
+import { useCurrentCurrency } from "@/features/settings/controller/SettingsContext";
+import { useExchangeRates } from "@/features/exchangeRates/controller/useExchangeRates";
 import { useDashboardMetrics } from "../controller/useDashboardMetrics";
 
 const RECENT_EXPENSES_LIMIT = 5;
@@ -31,8 +34,21 @@ function DashboardSkeleton() {
 
 export function DashboardPageSection() {
   const t = useTranslations("dashboard");
+  const baseCurrency = useCurrentCurrency();
   const { expenses, isHydrated } = useExpenses();
-  const metrics = useDashboardMetrics(expenses);
+  const { convertedAmounts } = useExchangeRates(expenses, baseCurrency);
+
+  // All dashboard computations happen in a single currency: each expense's
+  // amount is converted to the base currency using that day's exchange rate.
+  const expensesInBaseCurrency = useMemo(
+    () =>
+      expenses.map((expense) => ({
+        ...expense,
+        amount: convertedAmounts[expense.id] ?? expense.amount,
+      })),
+    [expenses, convertedAmounts]
+  );
+  const metrics = useDashboardMetrics(expensesInBaseCurrency);
 
   const recentExpenses = [...expenses]
     .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt))
@@ -88,8 +104,18 @@ export function DashboardPageSection() {
               </CardAction>
             </CardHeader>
             <CardContent>
-              <ExpenseTable expenses={recentExpenses} emptyMessage="" className="hidden md:block" />
-              <ExpenseCardList expenses={recentExpenses} emptyMessage="" className="md:hidden" />
+              <ExpenseTable
+                expenses={recentExpenses}
+                emptyMessage=""
+                convertedAmounts={convertedAmounts}
+                className="hidden md:block"
+              />
+              <ExpenseCardList
+                expenses={recentExpenses}
+                emptyMessage=""
+                convertedAmounts={convertedAmounts}
+                className="md:hidden"
+              />
             </CardContent>
           </Card>
         </>

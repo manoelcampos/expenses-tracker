@@ -1,4 +1,3 @@
-import type { CurrencyCode } from "@/features/settings/model/types";
 import type { Expense } from "../model/types";
 
 const CSV_COLUMNS = ["date", "amount", "currency", "category", "description"] as const;
@@ -8,20 +7,20 @@ function escapeCsvField(value: string): string {
   return `"${value.replace(/"/g, '""')}"`;
 }
 
-function expenseToCsvRow(expense: Expense, currency: CurrencyCode): string {
+function expenseToCsvRow(expense: Expense): string {
   const fields = [
     expense.date,
     expense.amount.toString(),
-    currency,
+    expense.currency,
     expense.category,
     expense.description,
   ];
   return fields.map(escapeCsvField).join(",");
 }
 
-export function expensesToCsv(expenses: Expense[], currency: CurrencyCode): string {
+export function expensesToCsv(expenses: Expense[]): string {
   const header = CSV_COLUMNS.join(",");
-  const rows = expenses.map((expense) => expenseToCsvRow(expense, currency));
+  const rows = expenses.map(expenseToCsvRow);
   return [header, ...rows].join("\n");
 }
 

@@ -8,6 +8,7 @@ const expenses: Expense[] = [
     id: "1",
     date: "2026-03-05",
     amount: 42.5,
+    currency: "USD",
     category: "Food",
     description: "Groceries",
     createdAt: "x",
@@ -32,6 +33,26 @@ describe("ExpenseTable", () => {
     expect(screen.getByText("Groceries")).toBeInTheDocument();
     expect(screen.getByText("Food")).toBeInTheDocument();
     expect(screen.getByText("$42.50")).toBeInTheDocument();
+  });
+
+  it("shows the amount in the expense's own currency plus a converted hint when it differs from the base currency", () => {
+    const foreignExpense: Expense = {
+      ...expenses[0],
+      id: "2",
+      currency: "EUR",
+    };
+
+    renderWithProviders(
+      <ExpenseTable
+        expenses={[foreignExpense]}
+        emptyMessage=""
+        convertedAmounts={{ "2": 46.1 }}
+      />,
+      { initialSettings: { locale: "en-US", currency: "USD" } }
+    );
+
+    expect(screen.getByText("€42.50")).toBeInTheDocument();
+    expect(screen.getByText("≈ $46.10")).toBeInTheDocument();
   });
 
   it("invokes onEdit through the row actions menu", async () => {

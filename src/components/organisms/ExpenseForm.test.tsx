@@ -42,6 +42,30 @@ describe("ExpenseForm", () => {
     expect(submitted.amount).toBe(42.5);
     expect(submitted.description).toBe("Groceries");
     expect(submitted.category).toBe("Food");
+    expect(submitted.currency).toBe("USD");
+  });
+
+  it("defaults the currency to the app's base currency and allows overriding it", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn().mockResolvedValue(true);
+    renderWithProviders(<ExpenseForm onSubmit={onSubmit} onCancel={vi.fn()} />, {
+      initialSettings: { locale: "en-US", currency: "EUR" },
+    });
+
+    const currencyTrigger = screen.getAllByRole("combobox")[0];
+    expect(currencyTrigger).toHaveTextContent("EUR");
+
+    await user.click(currencyTrigger);
+    await user.click(await screen.findByRole("option", { name: "GBP" }));
+
+    const amountInput = screen.getByPlaceholderText("0.00");
+    await user.clear(amountInput);
+    await user.type(amountInput, "10");
+    await user.type(screen.getByPlaceholderText("e.g. Weekly groceries"), "Tea");
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => expect(onSubmit).toHaveBeenCalledOnce());
+    expect(onSubmit.mock.calls[0][0].currency).toBe("GBP");
   });
 
   it("calls onCancel when the cancel button is clicked", async () => {

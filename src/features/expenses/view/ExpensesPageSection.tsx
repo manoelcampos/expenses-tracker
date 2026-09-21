@@ -13,6 +13,7 @@ import { useExpenses } from "../controller/useExpenses";
 import { useExpenseFilters } from "../controller/useExpenseFilters";
 import { expensesToCsv, triggerCsvDownload } from "../services/csvExport";
 import { useCurrentCurrency } from "@/features/settings/controller/SettingsContext";
+import { useExchangeRates } from "@/features/exchangeRates/controller/useExchangeRates";
 import type { Expense } from "../model/types";
 import type { ExpenseFormValues } from "../model/schema";
 import { ExpenseFormDialog } from "./ExpenseFormDialog";
@@ -22,6 +23,7 @@ export function ExpensesPageSection() {
   const currency = useCurrentCurrency();
   const { expenses, isHydrated, addExpense, editExpense, deleteExpense } = useExpenses();
   const filters = useExpenseFilters(expenses);
+  const { convertedAmounts } = useExchangeRates(filters.filteredExpenses, currency);
 
   const [formState, setFormState] = useState<{ open: boolean; expense: Expense | null }>({
     open: false,
@@ -35,7 +37,7 @@ export function ExpensesPageSection() {
       : addExpense(values);
 
   const handleExportCsv = () => {
-    const csv = expensesToCsv(filters.filteredExpenses, currency);
+    const csv = expensesToCsv(filters.filteredExpenses);
     triggerCsvDownload(`expenses-${new Date().toISOString().slice(0, 10)}.csv`, csv);
   };
 
@@ -79,6 +81,7 @@ export function ExpensesPageSection() {
           <ExpenseTable
             expenses={filters.filteredExpenses}
             emptyMessage={emptyMessage}
+            convertedAmounts={convertedAmounts}
             onEdit={(expense) => setFormState({ open: true, expense })}
             onDelete={setDeleteTarget}
             className="hidden md:block"
@@ -86,6 +89,7 @@ export function ExpensesPageSection() {
           <ExpenseCardList
             expenses={filters.filteredExpenses}
             emptyMessage={emptyMessage}
+            convertedAmounts={convertedAmounts}
             onEdit={(expense) => setFormState({ open: true, expense })}
             onDelete={setDeleteTarget}
             className="md:hidden"

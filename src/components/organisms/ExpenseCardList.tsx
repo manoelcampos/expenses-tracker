@@ -3,7 +3,7 @@
 import { useLocale } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/atoms/CategoryBadge";
-import { CurrencyAmount } from "@/components/atoms/CurrencyAmount";
+import { ExpenseAmount } from "@/components/molecules/ExpenseAmount";
 import { ExpenseRowActions } from "@/components/molecules/ExpenseRowActions";
 import { formatDate } from "@/lib/date";
 import type { Expense } from "@/features/expenses/model/types";
@@ -11,6 +11,8 @@ import type { Expense } from "@/features/expenses/model/types";
 interface ExpenseCardListProps {
   expenses: Expense[];
   emptyMessage: string;
+  /** expense id -> amount converted to the base currency, for the "≈" hint on foreign-currency cards */
+  convertedAmounts?: Record<string, number>;
   onEdit?: (expense: Expense) => void;
   onDelete?: (expense: Expense) => void;
   className?: string;
@@ -19,6 +21,7 @@ interface ExpenseCardListProps {
 export function ExpenseCardList({
   expenses,
   emptyMessage,
+  convertedAmounts,
   onEdit,
   onDelete,
   className,
@@ -42,7 +45,11 @@ export function ExpenseCardList({
                 <CategoryBadge category={expense.category} className="w-fit" />
               </div>
               <div className="flex flex-col items-end gap-2">
-                <CurrencyAmount amount={expense.amount} className="font-semibold" />
+                <ExpenseAmount
+                  expense={expense}
+                  convertedAmount={convertedAmounts?.[expense.id]}
+                  className="font-semibold"
+                />
                 {showActions && (
                   <ExpenseRowActions
                     onEdit={() => onEdit?.(expense)}
