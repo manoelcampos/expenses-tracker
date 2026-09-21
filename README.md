@@ -97,4 +97,4 @@ src/
 ## CI/CD
 
 - **CI** (`.github/workflows/ci.yml`) runs on every push and pull request: install, lint, test, and build.
-- **CD**: the repository is connected to [Vercel](https://vercel.com)'s native GitHub integration (project `manoel-s-team/expenses-tracker`), which builds and deploys automatically on every push to `main` — a preview deployment is also generated for every pull request. No extra workflow or secrets are needed for this.
+- **CD**: the repository is connected to [Vercel](https://vercel.com)'s native GitHub integration, which builds and deploys automatically on every push to `main` — a preview deployment is also generated for every pull request. No extra workflow or secrets are needed for this.
