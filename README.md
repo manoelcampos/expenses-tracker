@@ -95,4 +95,4 @@ src/
 ## CI/CD
 
 - **CI** (`.github/workflows/ci.yml`) runs on every push and pull request: install, lint, test, and build.
-- **CD** (`.github/workflows/deploy.yml`) deploys to [Vercel](https://vercel.com) on every push to `main`. It requires three repository secrets — `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` — generated from a Vercel project linked to this repo (`npx vercel link` locally, then `npx vercel env pull` or the Vercel dashboard's Settings → General page for the IDs, and a token from Vercel's Account Settings → Tokens).
+- **CD**: the repository is connected to [Vercel](https://vercel.com)'s native GitHub integration (project `manoel-s-team/expenses-tracker`), which builds and deploys automatically on every push to `main` — a preview deployment is also generated for every pull request. No extra workflow or secrets are needed for this.
